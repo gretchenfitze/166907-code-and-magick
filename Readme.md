@@ -1,7 +1,7 @@
 # Личный проект «Код и Магия» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Маргарита Клубочкина](https://up.htmlacademy.ru/javascript/4/user/166907).
-* Наставник: `Неизвестно`.
+* Наставник: [Варя Степанова](https://htmlacademy.ru/profile/id148462).
 
 ---
 
