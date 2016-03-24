@@ -2,16 +2,16 @@ function getMessage(a, b) {
 
   if (typeof a == 'boolean') {
     if (a == true) {
-    var Message = ('Я попал в ' + b);
+    var message = ('Я попал в ' + b);
     }
     else {
-    var Message = ('Я никуда не попал');
+    var message = ('Я никуда не попал');
     }
   }
 
-  
+
   else  if (typeof a == 'number') {
-    var Message = ('Я прыгнул на ' + (a * 100) + ' сантиметров');
+    var message = ('Я прыгнул на ' + (a * 100) + ' сантиметров');
   }
 
 
@@ -20,7 +20,7 @@ function getMessage(a, b) {
     for (var i = 0; i < a.length; i++) {
       sum += a[i];
     }
-    var Message = ('Я прошёл ' + (sum) + ' шагов');
+    var message = ('Я прошёл ' + sum + ' шагов');
   }
 
 
@@ -29,7 +29,7 @@ function getMessage(a, b) {
     for (var i = 0; i < a.length; i++) {
         length += (a[i] * b[i]);
       }
-    var Message = ('Я прошёл ' + (length) + ' метров');
+    var message = ('Я прошёл ' + length + ' метров');
   };
-  return Message
+  return message
 };
