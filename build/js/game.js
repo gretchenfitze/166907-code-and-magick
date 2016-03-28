@@ -378,18 +378,58 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var drawMessageShadow = function(ctx) {
+        ctx.beginPath();
+        ctx.moveTo(310, 85);
+        ctx.lineTo(560, 85);
+        ctx.lineTo(560, 210);
+        ctx.lineTo(310, 230);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fill();
+      };
+      var drawMessageBody = function(ctx) {
+        ctx.beginPath();
+        ctx.moveTo(300, 75);
+        ctx.lineTo(550, 75);
+        ctx.lineTo(550, 200);
+        ctx.lineTo(300, 220);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fill();
+      };
+      var drawMessageText = function(ctx) {
+        ctx.fillStyle = '#000000';
+        ctx.font = '16px PT Mono';
+        ctx.textBaseline = 'hanging';
+      };
+      drawMessageShadow(this.ctx);
+      drawMessageBody(this.ctx);
+      drawMessageText(this.ctx);
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           console.log('you have won!');
+          this.ctx.fillText('Поздравляю! Ты победил!', 310, 85);
           break;
         case Verdict.FAIL:
           console.log('you have failed!');
+          this.ctx.fillText('Спасибо, Пендальф!', 310, 85);
+          this.ctx.fillText('Но наша принцесса', 310, 110);
+          this.ctx.fillText('в другом замке!', 310, 135);
           break;
         case Verdict.PAUSE:
           console.log('game is on pause!');
+          this.ctx.fillText('Пауза.', 310, 85);
+          this.ctx.fillText('Нажми любую клавишу,', 310, 110);
+          this.ctx.fillText('чтобы продолжить...', 310, 135);
           break;
         case Verdict.INTRO:
           console.log('welcome to the game! Press Space to start');
+          this.ctx.fillText('Добро пожаловать в "Код', 310, 85);
+          this.ctx.fillText('и Магия"! Нажми пробел,', 310, 110);
+          this.ctx.fillText('чтобы начать игру.', 310, 135);
           break;
       }
     },
