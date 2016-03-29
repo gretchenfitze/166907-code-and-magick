@@ -378,7 +378,8 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-      var drawMessageShadow = function(ctx) {
+      var ctx = this.ctx;
+      var drawMessageShadow = function() {
         ctx.beginPath();
         ctx.moveTo(310, 85);
         ctx.lineTo(560, 85);
@@ -389,7 +390,7 @@
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.fill();
       };
-      var drawMessageBody = function(ctx) {
+      var drawMessageBody = function() {
         ctx.beginPath();
         ctx.moveTo(300, 75);
         ctx.lineTo(550, 75);
@@ -400,44 +401,44 @@
         ctx.fillStyle = '#FFFFFF';
         ctx.fill();
       };
-      var drawMessageText = function(ctx) {
+      var drawMessageText = function() {
         ctx.fillStyle = '#000000';
         ctx.font = '16px PT Mono';
         ctx.textBaseline = 'hanging';
       };
-      drawMessageShadow(this.ctx);
-      drawMessageBody(this.ctx);
-      drawMessageText(this.ctx);
+      drawMessageShadow(ctx);
+      drawMessageBody(ctx);
+      drawMessageText(ctx);
       /**
        * Назначение функции для переноса каждой строки выводимого текста из массива на 25 пикселей ниже
        */
-      var drawText = function(ctx, text) {
-        for (var i = 0; i < text.length; i++) {
-          ctx.fillText(text[i], 310, 85 + 25 * i);
-        }
+      var drawText = function(text) {
+        text.forEach(function(line, i) {
+          ctx.fillText(line, 310, 85 + 25 * i);
+        });
       };
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          drawText(this.ctx, [
+          drawText([
             'Поздравляю! Ты победил!'
           ]);
           break;
         case Verdict.FAIL:
-          drawText(this.ctx, [
+          drawText([
             'Спасибо, Пендальф!',
             'Но наша принцесса',
             'в другом замке!'
           ]);
           break;
         case Verdict.PAUSE:
-          drawText(this.ctx, [
+          drawText([
             'Пауза.',
             'Нажми любую клавишу,',
             'чтобы продолжить...'
           ]);
           break;
         case Verdict.INTRO:
-          drawText(this.ctx, [
+          drawText([
             'Добро пожаловать в "Код',
             'и Магия"! Нажми пробел,',
             'чтобы начать игру.'
