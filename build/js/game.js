@@ -408,28 +408,40 @@
       drawMessageShadow(this.ctx);
       drawMessageBody(this.ctx);
       drawMessageText(this.ctx);
+      /**
+       * Назначение функции для переноса каждой строки выводимого текста из массива на 25 пикселей ниже
+       */
+      var drawText = function(ctx, text) {
+        for (var i = 0; i < text.length; i++) {
+          ctx.fillText(text[i], 310, 85 + 25 * i);
+        }
+      };
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
-          this.ctx.fillText('Поздравляю! Ты победил!', 310, 85);
+          drawText(this.ctx, [
+            'Поздравляю! Ты победил!'
+          ]);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
-          this.ctx.fillText('Спасибо, Пендальф!', 310, 85);
-          this.ctx.fillText('Но наша принцесса', 310, 110);
-          this.ctx.fillText('в другом замке!', 310, 135);
+          drawText(this.ctx, [
+            'Спасибо, Пендальф!',
+            'Но наша принцесса',
+            'в другом замке!'
+          ]);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
-          this.ctx.fillText('Пауза.', 310, 85);
-          this.ctx.fillText('Нажми любую клавишу,', 310, 110);
-          this.ctx.fillText('чтобы продолжить...', 310, 135);
+          drawText(this.ctx, [
+            'Пауза.',
+            'Нажми любую клавишу,',
+            'чтобы продолжить...'
+          ]);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
-          this.ctx.fillText('Добро пожаловать в "Код', 310, 85);
-          this.ctx.fillText('и Магия"! Нажми пробел,', 310, 110);
-          this.ctx.fillText('чтобы начать игру.', 310, 135);
+          drawText(this.ctx, [
+            'Добро пожаловать в "Код',
+            'и Магия"! Нажми пробел,',
+            'чтобы начать игру.'
+          ]);
           break;
       }
     },
