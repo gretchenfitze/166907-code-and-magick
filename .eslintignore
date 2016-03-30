@@ -1,2 +1,2 @@
-src/check.js
-src/*.min.js
+build/js/check.js
+build/js/*.min.js
