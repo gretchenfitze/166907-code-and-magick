@@ -378,18 +378,71 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var ctx = this.ctx;
+      var drawMessageShadow = function() {
+        ctx.beginPath();
+        ctx.moveTo(310, 85);
+        ctx.lineTo(560, 85);
+        ctx.lineTo(560, 210);
+        ctx.lineTo(310, 230);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fill();
+      };
+      var drawMessageBody = function() {
+        ctx.beginPath();
+        ctx.moveTo(300, 75);
+        ctx.lineTo(550, 75);
+        ctx.lineTo(550, 200);
+        ctx.lineTo(300, 220);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fill();
+      };
+      var drawMessageText = function() {
+        ctx.fillStyle = '#000000';
+        ctx.font = '16px PT Mono';
+        ctx.textBaseline = 'hanging';
+      };
+      drawMessageShadow(ctx);
+      drawMessageBody(ctx);
+      drawMessageText(ctx);
+      /**
+       * Назначение функции для переноса каждой строки выводимого текста из массива на 25 пикселей ниже
+       */
+      var drawText = function(text) {
+        text.forEach(function(line, i) {
+          ctx.fillText(line, 310, 85 + 25 * i);
+        });
+      };
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          drawText([
+            'Поздравляю! Ты победил!'
+          ]);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          drawText([
+            'Спасибо, Пендальф!',
+            'Но наша принцесса',
+            'в другом замке!'
+          ]);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          drawText([
+            'Пауза.',
+            'Нажми любую клавишу,',
+            'чтобы продолжить...'
+          ]);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          drawText([
+            'Добро пожаловать в "Код',
+            'и Магия"! Нажми пробел,',
+            'чтобы начать игру.'
+          ]);
           break;
       }
     },
