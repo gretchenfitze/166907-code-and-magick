@@ -60,8 +60,8 @@
       hideElement(textNotice);
     }
 
-// Подтверждение возможности добавить отзыв
-    if ((textNotice.classList.contains('invisible')) && (nameNotice.classList.contains('invisible'))) {
+    // Подтверждение возможности добавить отзыв
+    if (textNotice.classList.contains('invisible') && nameNotice.classList.contains('invisible')) {
       hideElement(reviewFields);
       submitButton.removeAttribute('disabled');
     } else {
