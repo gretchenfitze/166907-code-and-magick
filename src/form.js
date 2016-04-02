@@ -30,8 +30,10 @@
   // При загрузке страницы имя пользователя и оценка из cookies ставятся в форму по умолчанию
   var browserCookies = require('browser-cookies');
   name.value = browserCookies.get('name');
-  var mark = document.getElementById('review-mark-' + browserCookies.get('mark'));
-  mark.setAttribute('checked', '');
+  if (browserCookies.get('mark') !== null) {
+    var mark = document.getElementById('review-mark-' + browserCookies.get('mark'));
+    mark.setAttribute('checked', '');
+  }
 
   var showElement = function(element) {
     element.classList.remove('invisible');
