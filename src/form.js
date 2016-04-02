@@ -23,9 +23,15 @@
   var textNotice = document.querySelector('.review-fields-text');
   var reviewFields = document.querySelector('.review-fields');
   var submitButton = document.querySelector('.review-submit');
-  name.setAttribute('required', 'true');
-  submitButton.setAttribute('disabled', 'disabled');
+  name.setAttribute('required', '');
+  submitButton.setAttribute('disabled', '');
   textNotice.classList.add('invisible');
+
+  // При загрузке страницы имя пользователя и оценка из cookies ставятся в форму по умолчанию
+  var browserCookies = require('browser-cookies');
+  name.value = browserCookies.get('name');
+  var mark = document.getElementById('review-mark-' + browserCookies.get('mark'));
+  mark.setAttribute('checked', '');
 
   var showElement = function(element) {
     element.classList.remove('invisible');
@@ -33,7 +39,7 @@
   var hideElement = function(element) {
     element.classList.add('invisible');
   };
-
+  // Валидация всей формы
   var validateForm = function() {
     var nameValue = document.getElementById('review-name').value;
     var textValue = document.getElementById('review-text').value;
@@ -53,22 +59,38 @@
       }
     }
     if ((markValue < 3) && (textValue === '')) {
-      text.setAttribute('required', 'true');
+      text.setAttribute('required', '');
       showElement(textNotice);
     } else {
       text.removeAttribute('required');
       hideElement(textNotice);
     }
 
-// Подтверждение возможности добавить отзыв
-    if ((textNotice.classList.contains('invisible')) && (nameNotice.classList.contains('invisible'))) {
+    // Расчет количества дней, прошедшего от последнего дня рождения
+    // (16 сентября прошлого или текущего года)
+    var currentDate = new Date();
+    var prevBirthdayYear;
+    if ((currentDate.getMonth() < 8) ||
+    ((currentDate.getMonth() === 8) && (currentDate.getDate() < 16))) {
+      prevBirthdayYear = (currentDate.getFullYear() - 1);
+    } else {
+      prevBirthdayYear = currentDate.getFullYear();
+    }
+    var daysToExpire = (currentDate - Date.parse(prevBirthdayYear + '-09-16T00:00:00.001Z')) / 1000 / 60 / 60 / 24;
+    // Последние введенные значения имени и оценки сохраняются в cookies
+    browserCookies.set('name', name.value, {expires: daysToExpire});
+    browserCookies.set('mark', markValue, {expires: daysToExpire});
+
+    // Подтверждение возможности добавить отзыв
+    if (textNotice.classList.contains('invisible') && nameNotice.classList.contains('invisible')) {
       hideElement(reviewFields);
       submitButton.removeAttribute('disabled');
     } else {
       showElement(reviewFields);
-      submitButton.setAttribute('disabled', 'disabled');
+      submitButton.setAttribute('disabled', '');
     }
   };
+  validateForm();
   name.oninput = function() {
     validateForm();
   };
