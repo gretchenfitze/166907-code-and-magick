@@ -16,55 +16,68 @@
   };
 
   var name = document.getElementById('review-name');
-  var nameValue = document.getElementById('review-name').value;
   var text = document.getElementById('review-text');
-  var textValue = document.getElementById('review-text').value;
   var marks = document.getElementsByName('review-mark');
   var marksField = document.querySelector('.review-form-group-mark');
-  var markValue;
-  var checkName = document.querySelector('.review-fields-name');
-  var checkText = document.querySelector('.review-fields-text');
+  var nameNotice = document.querySelector('.review-fields-name');
+  var textNotice = document.querySelector('.review-fields-text');
   var reviewFields = document.querySelector('.review-fields');
   var submitButton = document.querySelector('.review-submit');
-
   name.setAttribute('required', 'true');
   submitButton.setAttribute('disabled', 'disabled');
-// Проверка валидности имени
-  name.oninput = function() {
-    if (nameValue.lenght === 0) {
-      checkName.classList.remove('invisible');
-    } else {
-      checkName.classList.add('invisible');
-    }
+  textNotice.classList.add('invisible');
+
+  var showElement = function(element) {
+    element.classList.remove('invisible');
   };
-// Проверка необходимости оставить отзыв при плохой оценке
-  marksField.onclick = function() {
-    for(var i = 0; i < marks.length; i++) {
+  var hideElement = function(element) {
+    element.classList.add('invisible');
+  };
+
+  var validateForm = function() {
+    var nameValue = document.getElementById('review-name').value;
+    var textValue = document.getElementById('review-text').value;
+    var markValue;
+
+    // Проверка валидности имени
+    if (nameValue === '') {
+      showElement(nameNotice);
+    } else {
+      hideElement(nameNotice);
+    }
+
+    // Проверка необходимости оставить отзыв при плохой оценке
+    for (var i = 0; i < marks.length; i++) {
       if(marks[i].checked) {
         markValue = marks[i].value;
       }
     }
-    if (markValue > 3) {
-      text.removeAttribute('required');
-      checkText.classList.add('invisible');
-    } else {
+    if ((markValue < 3) && (textValue === '')) {
       text.setAttribute('required', 'true');
-      checkText.classList.remove('invisible');
+      showElement(textNotice);
+    } else {
+      text.removeAttribute('required');
+      hideElement(textNotice);
+    }
+
+// Подтверждение возможности добавить отзыв
+    if ((textNotice.classList.contains('invisible')) && (nameNotice.classList.contains('invisible'))) {
+      hideElement(reviewFields);
+      submitButton.removeAttribute('disabled');
+    } else {
+      showElement(reviewFields);
+      submitButton.setAttribute('disabled', 'disabled');
     }
   };
-// Проверка заполнения текста
-  text.oninput = function() {
-    if ((textValue.lenght === 0) && (text.getAttribute('required') === 'true')) {
-      checkText.classList.remove('invisible');
-    } else {
-      checkText.classList.add('invisible');
-    }
+  name.oninput = function() {
+    validateForm();
   };
 
-  document.oninput = function() {
-    if ((checkText.classList.contains('invisible')) && (checkName.classList.contains('invisible'))) {
-      reviewFields.classList.add('invisible');
-      submitButton.removeAttribute('disabled');
-    }
+  marksField.onclick = function() {
+    validateForm();
+  };
+
+  text.oninput = function() {
+    validateForm();
   };
 })();
