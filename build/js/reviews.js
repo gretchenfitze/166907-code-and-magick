@@ -95,7 +95,7 @@ var getFilteredReviews = function(filteredReviews, filter) {
 
     case Filter.RECENT:
       var recentReviews = reviewsToFilter.filter(function(review) {
-        var currentDate = Date.parse('2016-01-31T00:00:00.001Z');
+        var currentDate = new Date();
         /** @constant {number} */
         var FIRST_DAY_REVIEW = 1000 * 60 * 60 * 24 * 14;
         return Date.parse(review.date + 'T00:00:00.001Z') > (currentDate - FIRST_DAY_REVIEW);
