@@ -448,6 +448,38 @@
     },
 
     /**
+     * Добавление эффектра параллакса для облаков и паузы при скрытии блока с игрой из поля видимости
+     */
+    _scrollEffectsForClouds: function() {
+      var clouds = document.querySelector('.header-clouds');
+      var scrolled = window.pageYOffset;
+      var cloudsTimeout;
+      var demo = document.querySelector('.demo');
+
+      /** @constant {number} */
+      var CLOUDS_TIMEOUT = 100;
+
+      var isVisible = function(element) {
+        var elementPosition = element.getBoundingClientRect();
+        return elementPosition.bottom > 0;
+      };
+
+      if (isVisible(clouds)) {
+        clouds.style.backgroundPositionX = '-' + scrolled + 'px';
+      } else {
+        clearTimeout(cloudsTimeout);
+        cloudsTimeout = setTimeout(function() {
+          if (!isVisible(clouds)) {
+            clouds.style.backgroundPositionX = '';
+            if (!isVisible(demo)) {
+              game.setGameStatus(window.Game.Verdict.PAUSE);
+            }
+          }
+        }, CLOUDS_TIMEOUT);
+      }
+    },
+
+    /**
      * Предзагрузка необходимых изображений для уровня.
      * @param {function} callback
      * @private
@@ -722,6 +754,7 @@
     _initializeGameListeners: function() {
       window.addEventListener('keydown', this._onKeyDown);
       window.addEventListener('keyup', this._onKeyUp);
+      window.addEventListener('scroll', this._scrollEffectsForClouds);
     },
 
     /** @private */
