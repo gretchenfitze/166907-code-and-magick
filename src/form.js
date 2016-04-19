@@ -1,18 +1,20 @@
 'use strict';
 
 (function() {
+  var utilities = require('./utilities');
+
   var formContainer = document.querySelector('.overlay-container');
   var formOpenButton = document.querySelector('.reviews-controls-new');
   var formCloseButton = document.querySelector('.review-form-close');
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
-    formContainer.classList.remove('invisible');
+    utilities.showElement(formContainer);
   };
 
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
-    formContainer.classList.add('invisible');
+    utilities.hideElement(formContainer);
   };
 
   var name = document.getElementById('review-name');
@@ -25,7 +27,7 @@
   var submitButton = document.querySelector('.review-submit');
   name.setAttribute('required', '');
   submitButton.setAttribute('disabled', '');
-  textNotice.classList.add('invisible');
+  utilities.hideElement(textNotice);
 
   // При загрузке страницы имя пользователя и оценка из cookies ставятся в форму по умолчанию
   var browserCookies = require('browser-cookies');
@@ -35,12 +37,6 @@
     mark.setAttribute('checked', '');
   }
 
-  var showElement = function(element) {
-    element.classList.remove('invisible');
-  };
-  var hideElement = function(element) {
-    element.classList.add('invisible');
-  };
   // Валидация всей формы
   var validateForm = function() {
     var nameValue = document.getElementById('review-name').value;
@@ -49,9 +45,9 @@
 
     // Проверка валидности имени
     if (nameValue === '') {
-      showElement(nameNotice);
+      utilities.showElement(nameNotice);
     } else {
-      hideElement(nameNotice);
+      utilities.hideElement(nameNotice);
     }
 
     // Проверка необходимости оставить отзыв при плохой оценке
@@ -62,10 +58,10 @@
     }
     if ((markValue < 3) && (textValue === '')) {
       text.setAttribute('required', '');
-      showElement(textNotice);
+      utilities.showElement(textNotice);
     } else {
       text.removeAttribute('required');
-      hideElement(textNotice);
+      utilities.hideElement(textNotice);
     }
 
     // Расчет количества дней, прошедшего от последнего дня рождения
@@ -85,10 +81,10 @@
 
     // Подтверждение возможности добавить отзыв
     if (textNotice.classList.contains('invisible') && nameNotice.classList.contains('invisible')) {
-      hideElement(reviewFields);
+      utilities.hideElement(reviewFields);
       submitButton.removeAttribute('disabled');
     } else {
-      showElement(reviewFields);
+      utilities.showElement(reviewFields);
       submitButton.setAttribute('disabled', '');
     }
   };

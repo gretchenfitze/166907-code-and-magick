@@ -2,4 +2,4 @@
 
 require('./form');
 require('./game');
-require('../build/js/reviews.js');
+require('../build/js/reviews');
