@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-  var utilities = require('../../src/utilities');
+  var utilities = require('./utilities');
   var renderingReviews = require('./reviews-render');
 
   var filtersContainer = document.querySelector('.reviews-filter');
