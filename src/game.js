@@ -13,6 +13,8 @@
    */
   var WIDTH = 700;
 
+  var utilities = require('./utilities');
+
   /**
    * ID уровней.
    * @enum {number}
@@ -459,19 +461,14 @@
       /** @constant {number} */
       var CLOUDS_TIMEOUT = 100;
 
-      var isVisible = function(element) {
-        var elementPosition = element.getBoundingClientRect();
-        return elementPosition.bottom > 0;
-      };
-
-      if (isVisible(clouds)) {
+      if (utilities.isVisible(clouds)) {
         clouds.style.backgroundPositionX = '-' + scrolled + 'px';
       } else {
         clearTimeout(cloudsTimeout);
         cloudsTimeout = setTimeout(function() {
-          if (!isVisible(clouds)) {
+          if (!utilities.isVisible(clouds)) {
             clouds.style.backgroundPositionX = '';
-            if (!isVisible(demo)) {
+            if (!utilities.isVisible(demo)) {
               game.setGameStatus(window.Game.Verdict.PAUSE);
             }
           }
