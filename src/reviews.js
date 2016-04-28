@@ -2,7 +2,7 @@
 
 (function() {
   var utilities = require('./utilities');
-  var renderingReviews = require('./reviews-render');
+  var Review = require('./reviews-render');
 
   var filtersContainer = document.querySelector('.reviews-filter');
   var reviewsContainer = document.querySelector('.reviews-list');
@@ -23,6 +23,12 @@
   /** @type {number} */
   var pageNumber = 0;
 
+  /**
+  * Массив отрисованных отзывов
+  * @type {Array.<Review>}
+  */
+  var renderedReviews = [];
+
   /** @enum {number} */
   var Filter = {
     'ALL': 'all',
@@ -35,15 +41,19 @@
   /** @param {Array.<Object>} reviews */
   var renderReviews = function(reviewsToRender, page, replace) {
     if (replace) {
-      reviewsContainer.innerHTML = '';
+      renderedReviews.forEach(function(review) {
+        review.remove();
+      });
+      renderedReviews = [];
     }
 
     var from = page * PAGE_SIZE;
     var to = from + PAGE_SIZE;
 
     reviewsToRender.slice(from, to).forEach(function(review) {
-      renderingReviews.getReviewElement(review, reviewsContainer);
+      renderedReviews.push(new Review(review, reviewsContainer));
     });
+
     if (to < reviewsToRender.length) {
       utilities.showElement(showMoreReviews);
     } else {
@@ -113,7 +123,6 @@
       }
     });
   };
-
 
   /**
    * @param {Array} reviews
