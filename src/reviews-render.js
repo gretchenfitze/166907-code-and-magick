@@ -21,12 +21,13 @@
   var getReviewElement = function(data, container) {
     var element = elementToClone.cloneNode(true);
     var author = data.author;
-    element.querySelector('.review-rating').textContent = data.rating;
+    var reviewRating = element.querySelector('.review-rating');
+    reviewRating.textContent = data.rating;
 
     // Исправление положения звёздочки рейтинга
-    element.querySelector('.review-rating').style.backgroundPositionX = '10px';
-    element.querySelector('.review-rating').style.backgroundRepeatX = 'no-repeat';
-    element.querySelector('.review-rating').style.width = '40px';
+    reviewRating.style.backgroundPositionX = '10px';
+    reviewRating.style.backgroundRepeatX = 'no-repeat';
+    reviewRating.style.width = '40px';
 
     element.querySelector('.review-text').textContent = data.description;
     container.appendChild(element);
@@ -35,10 +36,11 @@
     var pictureLoadTimeout;
 
     authorPicture.onload = function() {
+      var authorImg = element.querySelector('img');
       clearTimeout(pictureLoadTimeout);
-      element.querySelector('img').setAttribute('src', author.picture);
-      element.querySelector('img').setAttribute('width', '124px');
-      element.querySelector('img').setAttribute('height', '124px');
+      authorImg.setAttribute('src', author.picture);
+      authorImg.setAttribute('width', '124px');
+      authorImg.setAttribute('height', '124px');
     };
 
     authorPicture.onerror = function() {
