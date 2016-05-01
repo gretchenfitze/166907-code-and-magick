@@ -31,7 +31,7 @@
 
   /** @enum {number} */
   var Filter = {
-    'ALL': 'all',
+    'ALL': 'reviews-all',
     'RECENT': 'reviews-recent',
     'GOOD': 'reviews-good',
     'BAD': 'reviews-bad',
