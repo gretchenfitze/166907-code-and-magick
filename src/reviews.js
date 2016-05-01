@@ -113,6 +113,7 @@
   var setFilterEnabled = function(filter) {
     filteredReviews = getFilteredReviews(reviews, filter);
     pageNumber = 0;
+    localStorage.setItem('lastFilter', filter);
     renderReviews(filteredReviews, pageNumber, true);
   };
 
@@ -122,6 +123,10 @@
         setFilterEnabled(evt.target.id);
       }
     });
+  };
+
+  var highlightLastFilter = function(filter) {
+    document.getElementById(filter).checked = true;
   };
 
   /**
@@ -174,9 +179,11 @@
   };
 
   getReviews(function(loadedReviews) {
+    var lastFilter = localStorage.getItem('lastFilter') || Filter.ALL;
     reviews = loadedReviews;
+    highlightLastFilter(lastFilter);
     setFiltrationEnabled(true);
-    setFilterEnabled(Filter.ALL);
+    setFilterEnabled(lastFilter);
     setMoreReviewsEnabled();
   });
 })();
