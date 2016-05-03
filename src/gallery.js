@@ -20,15 +20,13 @@
     }
   };
 
-  var showGallery = function() {
-    getGallery(galleryImages);
-  };
-
   /**
   * @constructor
   */
   var Gallery = function() {
     var self = this;
+    getGallery(galleryImages);
+
     var changePhotoHash = function(src) {
       history.replaceState(null, null, '#photo/' + src);
     };
@@ -144,6 +142,5 @@
     photogalleryBlock: document.querySelectorAll('.photogallery-image')
   };
 
-  module.exports = showGallery();
   module.exports = new Gallery();
 })();
