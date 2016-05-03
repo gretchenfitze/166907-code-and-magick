@@ -66,26 +66,31 @@
     this.data = data;
     this.element = getReviewElement(this.data, container);
 
-    var reviewHelpfulBtn = this.element.querySelector('.review-quiz-answer-yes');
-    var reviewUnhelpfulBtn = this.element.querySelector('.review-quiz-answer-no');
-    var reviewQuizOnClickYes = function() {
-      reviewHelpfulBtn.classList.add('review-quiz-answer-active');
-    };
-    var reviewQuizOnClickNo = function() {
-      reviewUnhelpfulBtn.classList.add('review-quiz-answer-active');
-    };
+    this.reviewHelpfulBtn = this.element.querySelector('.review-quiz-answer-yes');
+    this.reviewUnhelpfulBtn = this.element.querySelector('.review-quiz-answer-no');
 
-    this.remove = function() {
-      reviewHelpfulBtn.removeEventListener('click', reviewQuizOnClickYes);
-      reviewUnhelpfulBtn.removeEventListener('click', reviewQuizOnClickNo);
-      this.element.parentNode.removeChild(this.element);
-    };
+    this.reviewQuizOnClickYes = this.reviewQuizOnClickYes.bind(this);
+    this.reviewQuizOnClickNo = this.reviewQuizOnClickNo.bind(this);
 
-    reviewHelpfulBtn.addEventListener('click', reviewQuizOnClickYes);
-    reviewUnhelpfulBtn.addEventListener('click', reviewQuizOnClickNo);
+
+    this.reviewHelpfulBtn.addEventListener('click', this.reviewQuizOnClickYes);
+    this.reviewUnhelpfulBtn.addEventListener('click', this.reviewQuizOnClickNo);
     container.appendChild(this.element);
   };
 
-  module.exports = Review;
+  Review.prototype.reviewQuizOnClickYes = function() {
+    this.reviewHelpfulBtn.classList.add('review-quiz-answer-active');
+  };
 
+  Review.prototype.reviewQuizOnClickNo = function() {
+    this.reviewUnhelpfulBtn.classList.add('review-quiz-answer-active');
+  };
+
+  Review.prototype.remove = function() {
+    this.reviewHelpfulBtn.removeEventListener('click', this.reviewQuizOnClickYes);
+    this.reviewUnhelpfulBtn.removeEventListener('click', this.reviewQuizOnClickNo);
+    this.element.parentNode.removeChild(this.element);
+  };
+
+  module.exports = Review;
 })();
