@@ -39,12 +39,11 @@
 
   // Валидация всей формы
   var validateForm = function() {
-    var nameValue = document.getElementById('review-name').value;
     var textValue = document.getElementById('review-text').value;
     var markValue;
 
     // Проверка валидности имени
-    if (nameValue === '') {
+    if (name === '') {
       utilities.showElement(nameNotice);
     } else {
       utilities.hideElement(nameNotice);
