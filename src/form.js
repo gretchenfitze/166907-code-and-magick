@@ -43,7 +43,7 @@
     var markValue;
 
     // Проверка валидности имени
-    if (name === '') {
+    if (name.value === '') {
       utilities.showElement(nameNotice);
     } else {
       utilities.hideElement(nameNotice);
